@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toplu IMEI Sorgulama</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <h1>Toplu IMEI Sorgulama</h1>
+        <p>
+          IMEI listesini tek seferde sorgulayın. Sonuçlar otomatik olarak
+          <strong>kayıtlı</strong> ve <strong>kayıtsız</strong> diye ayrılır.
+        </p>
+      </header>
+
+      <section class="card settings-card">
+        <h2>API Ayarları</h2>
+        <div class="grid two-col">
+          <label>
+            API Endpoint
+            <input id="apiEndpoint" type="url" placeholder="https://api.ornek.com/imei/check" />
+          </label>
+          <label>
+            API Key (Opsiyonel)
+            <input id="apiKey" type="text" placeholder="Bearer token veya key" />
+          </label>
+        </div>
+        <p class="hint">
+          Endpoint boş bırakılırsa demo verisi ile çalışır. API entegrasyonu için
+          <code>app.js</code> içindeki <code>normalizeApiResponse</code> fonksiyonunu
+          kendi response yapınıza göre güncelleyin.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>IMEI Listesi</h2>
+        <label>
+          Her satıra bir IMEI yazın
+          <textarea
+            id="imeiInput"
+            rows="8"
+            placeholder="356938035643809&#10;490154203237518&#10;352099001761481"
+          ></textarea>
+        </label>
+        <div class="actions">
+          <button id="queryBtn" class="btn primary">Toplu Sorgula</button>
+          <button id="fillSampleBtn" class="btn ghost">Örnek IMEI Doldur</button>
+          <button id="copyPromptBtn" class="btn ghost">ChatGPT Promptu Oluştur</button>
+        </div>
+        <p id="status" class="status" aria-live="polite"></p>
+      </section>
+
+      <section class="results-grid">
+        <article class="card result-card success">
+          <h3>Kayıtlı IMEI'ler <span id="registeredCount" class="badge">0</span></h3>
+          <ul id="registeredList" class="result-list"></ul>
+        </article>
+
+        <article class="card result-card danger">
+          <h3>Kayıtsız IMEI'ler <span id="unregisteredCount" class="badge">0</span></h3>
+          <ul id="unregisteredList" class="result-list"></ul>
+        </article>
+      </section>
+
+      <section class="card">
+        <h2>ChatGPT İçin Otomatik Özet</h2>
+        <textarea id="promptOutput" rows="7" readonly placeholder="Toplu sorgu sonrası otomatik oluşur"></textarea>
+      </section>
+    </main>
+
+    <template id="resultItemTemplate">
+      <li>
+        <span class="imei"></span>
+        <span class="reason"></span>
+      </li>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
